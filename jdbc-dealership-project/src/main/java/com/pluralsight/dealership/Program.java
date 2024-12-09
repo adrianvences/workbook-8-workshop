@@ -78,3 +78,7 @@ public static void main(String[] args) {
 
     }
 
+    // take everyhting in main and put it in ui
+// the only thing that should start up is the basicdatasource and ui in main.
+    // create basicdatasource that connects to instance.
+
