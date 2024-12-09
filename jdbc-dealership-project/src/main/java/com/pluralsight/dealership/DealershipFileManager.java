@@ -28,12 +28,13 @@ public class DealershipFileManager {
                     System.out.println("Invalid dealership format");
                     return null;
                 }
+                int id = 1;
                 String name = dealerShipInfo[0];
                 String address = dealerShipInfo[1];
                 String phoneNumber = dealerShipInfo[2];
 
                 // initialize the dealership object
-                dealership = new Dealership(name, address,phoneNumber,inventory);
+                dealership = new Dealership(id,name, address,phoneNumber);
             } else {
                 System.out.println("dealership file is empty");
                 return null;
@@ -69,37 +70,5 @@ public class DealershipFileManager {
         return dealership;
     }
 
-    //rewrites csv file to update it.
-    public void saveDealership(Dealership dealerShip){
-        try  {
-            File file = new File("src/main/resources/Data/inventory.csv");
-            boolean isNewFile = !file.exists() || file.length() == 0;
-            FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter buffWriter = new BufferedWriter(fileWriter);
-
-            // Write dealership info
-            buffWriter.write( dealerShip.getName() + "|" + dealerShip.getAddress() + "|" + dealerShip.getPhoneNumber());
-            buffWriter.newLine();
-
-            // Write vehicles
-            for (Vehicle vehicle : dealerShip.getAllVehicles()) {
-                buffWriter.write(vehicle.getVin() + "|" +
-                        vehicle.getYear() + "|" +
-                        vehicle.getMake() + "|" +
-                        vehicle.getModel() + "|" +
-                        vehicle.getVehicleType() + "|" +
-                        vehicle.getColor() + "|" +
-                        vehicle.getOdometer() + "|" +
-                        vehicle.getPrice());
-                buffWriter.newLine();
-            }
-            buffWriter.close();
-        } catch (IOException e) {
-            System.out.println("Error saving dealership to file");
-            e.printStackTrace();
-        }
-
-
-    }
 
 }

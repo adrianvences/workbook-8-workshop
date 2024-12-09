@@ -24,31 +24,31 @@ public class UserInterface {
          // switch statement to process users choice
          switch (choice.toLowerCase()){
              case "1":
-                 processGetAllVehiclesRequest();
+//                 processGetAllVehiclesRequest();
                  break;
              case "2":
-                 processGetByPriceRequest();
+//                 processGetByPriceRequest();
                  break;
              case "3":
-                 processGetByMakeModelRequest();
+//                 processGetByMakeModelRequest();
                  break;
              case "4":
-                 processGetByColorRequest();
+//                 processGetByColorRequest();
                  break;
              case "5":
-                 processGetByMileageRequest();
+//                 processGetByMileageRequest();
                  break;
              case "6":
-                 processGetByVehicleTypeRequest();
+//                 processGetByVehicleTypeRequest();
                  break;
              case "7":
-                 processGetByYearRequest();
+//                 processGetByYearRequest();
                  break;
              case "8":
-                 processAddVehicleRequest();
+//                 processAddVehicleRequest();
                  break;
              case "9":
-                 processRemoveVehicleRequest();
+//                 processRemoveVehicleRequest();
                  break;
              case "10":
                  displaySellLeaseMenu();
@@ -120,10 +120,10 @@ public class UserInterface {
                     """);
             switch (input.toLowerCase()) {
                 case "1":
-                    processSellVehicleRequest();
+//                    processSellVehicleRequest();
                     break;
                 case "2":
-                    processLeaseVehicleRequest();
+//                    processLeaseVehicleRequest();
                     break;
                 case "x":
                     System.out.println("Back to home screen ...");
@@ -136,120 +136,120 @@ public class UserInterface {
         }
     }
 
-    public void processSellVehicleRequest(){
-        String contractType = "saleContract";
-        Vehicle vehicle = processGetByVinRequest();
-        Contract c = ContractFileManager.makeContract(contractType,vehicle);
-        this.dealership.removeVehicle(vehicle);
-        fileManager.saveDealership(this.dealership);
-        ContractFileManager.saveContract(c);
-
-    }
-
-
-    public void processLeaseVehicleRequest(){
-        String contractType = "leaseContract";
-        Vehicle vehicle = processGetByVinRequest();
-        if(!ContractFileManager.okayToLeaseMethod(vehicle.getYear())){
-            System.out.println("Vehicle is not available for lease.");
-            return;
-        }
-        Contract c = ContractFileManager.makeContract(contractType,vehicle);
-        this.dealership.removeVehicle(vehicle);
-        fileManager.saveDealership(this.dealership);
-        ContractFileManager.saveContract(c);
-    }
-
-    // method to print out inventory array
-    private void displayVehicles(ArrayList<Vehicle> inventory){
-        for (Vehicle v : inventory){
-            System.out.println(v);
-        }
-    }
-
-    public Vehicle processGetByVinRequest(){
-        int vin = Integer.parseInt(promptMethod("Enter Vehicle vin"));
-        Vehicle vehicle = this.dealership.findVehicleByVin(vin);
-        System.out.println(vehicle);
-        return vehicle;
-    }
-
-    // Method to get vehicles by price range
-    public void processGetByPriceRequest(){
-        int min = Integer.parseInt(promptMethod("Enter minimum Value"));
-        int max = Integer.parseInt(promptMethod("Enter maximum Value"));
-
-        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByPrice(min,max);
-        displayVehicles(vehicles);
-    }
-
-    // Method to get vehicles by make / model
-    public void processGetByMakeModelRequest(){
-        String userMakeQuery = promptMethod("What car make are you looking for?");
-        String userModelQuery = promptMethod("What car model are you looking for?");
-        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByMakeModel(userMakeQuery,userModelQuery);
-        displayVehicles(vehicles);
-    }
-
-    // Method to get vehicle by year
-    public void processGetByYearRequest(){
-        int min = Integer.parseInt(promptMethod("Enter minimum year"));
-        int max = Integer.parseInt(promptMethod("Enter maximum year"));
-
-        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByYear(min,max);
-        displayVehicles(vehicles);
-    }
-
-    // Method to get vehicle by color
-    public void processGetByColorRequest(){
-        String colorQuery = promptMethod("Enter vehicle color.");
-        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByColor(colorQuery);
-        displayVehicles(vehicles);
-    }
-
-    // method to get vehicle by mileage (odometer)
-    public void processGetByMileageRequest(){
-        int min = Integer.parseInt(promptMethod("Enter minimum mileage"));
-        int max = Integer.parseInt(promptMethod("Enter maximum mileage"));
-
-        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByMileage(min,max);
-        displayVehicles(vehicles);
-    }
-
-    // Method to get vehicle by type
-    public void processGetByVehicleTypeRequest(){
-        String vehicleTypeQuery = promptMethod(" Enter vehicle by type (car, truck, SUV, van)");
-        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByType(vehicleTypeQuery);
-        displayVehicles(vehicles);
-    }
-
-    // method to get all vehicles
-    public void processGetAllVehiclesRequest(){
-        if(dealership != null) {
-            ArrayList<Vehicle> vehicles = this.dealership.getAllVehicles();
-            displayVehicles(vehicles);
-        }
-        else{
-            System.out.println("This dealership is empty.");
-        }
-    }
-
-    // add vehicles method
-    public void processAddVehicleRequest(){
-        Vehicle vehicle = displayAddVehiclePrompt();
-        this.dealership.addVehicle(vehicle);
-        fileManager.saveDealership(this.dealership);
-    }
-
-    // remove vehicle method
-    public void processRemoveVehicleRequest(){
-        String vinQueryToDelete = promptMethod("Insert VIN number for vehicle that you want to delete.");
-        Vehicle vehicle = this.dealership.findVehicleByVin(Integer.parseInt(vinQueryToDelete));
-        this.dealership.removeVehicle(vehicle);
-        fileManager.saveDealership(this.dealership);
-
-
-    }
+//    public void processSellVehicleRequest(){
+//        String contractType = "saleContract";
+//        Vehicle vehicle = processGetByVinRequest();
+//        Contract c = ContractFileManager.makeContract(contractType,vehicle);
+//        this.dealership.removeVehicle(vehicle);
+//        fileManager.saveDealership(this.dealership);
+//        ContractFileManager.saveContract(c);
+//
+//    }
+//
+//
+//    public void processLeaseVehicleRequest(){
+//        String contractType = "leaseContract";
+//        Vehicle vehicle = processGetByVinRequest();
+//        if(!ContractFileManager.okayToLeaseMethod(vehicle.getYear())){
+//            System.out.println("Vehicle is not available for lease.");
+//            return;
+//        }
+//        Contract c = ContractFileManager.makeContract(contractType,vehicle);
+//        this.dealership.removeVehicle(vehicle);
+//        fileManager.saveDealership(this.dealership);
+//        ContractFileManager.saveContract(c);
+//    }
+//
+//    // method to print out inventory array
+//    private void displayVehicles(ArrayList<Vehicle> inventory){
+//        for (Vehicle v : inventory){
+//            System.out.println(v);
+//        }
+//    }
+//
+//    public Vehicle processGetByVinRequest(){
+//        int vin = Integer.parseInt(promptMethod("Enter Vehicle vin"));
+//        Vehicle vehicle = this.dealership.findVehicleByVin(vin);
+//        System.out.println(vehicle);
+//        return vehicle;
+//    }
+//
+//    // Method to get vehicles by price range
+//    public void processGetByPriceRequest(){
+//        int min = Integer.parseInt(promptMethod("Enter minimum Value"));
+//        int max = Integer.parseInt(promptMethod("Enter maximum Value"));
+//
+//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByPrice(min,max);
+//        displayVehicles(vehicles);
+//    }
+//
+//    // Method to get vehicles by make / model
+//    public void processGetByMakeModelRequest(){
+//        String userMakeQuery = promptMethod("What car make are you looking for?");
+//        String userModelQuery = promptMethod("What car model are you looking for?");
+//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByMakeModel(userMakeQuery,userModelQuery);
+//        displayVehicles(vehicles);
+//    }
+//
+//    // Method to get vehicle by year
+//    public void processGetByYearRequest(){
+//        int min = Integer.parseInt(promptMethod("Enter minimum year"));
+//        int max = Integer.parseInt(promptMethod("Enter maximum year"));
+//
+//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByYear(min,max);
+//        displayVehicles(vehicles);
+//    }
+//
+//    // Method to get vehicle by color
+//    public void processGetByColorRequest(){
+//        String colorQuery = promptMethod("Enter vehicle color.");
+//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByColor(colorQuery);
+//        displayVehicles(vehicles);
+//    }
+//
+//    // method to get vehicle by mileage (odometer)
+//    public void processGetByMileageRequest(){
+//        int min = Integer.parseInt(promptMethod("Enter minimum mileage"));
+//        int max = Integer.parseInt(promptMethod("Enter maximum mileage"));
+//
+//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByMileage(min,max);
+//        displayVehicles(vehicles);
+//    }
+//
+//    // Method to get vehicle by type
+//    public void processGetByVehicleTypeRequest(){
+//        String vehicleTypeQuery = promptMethod(" Enter vehicle by type (car, truck, SUV, van)");
+//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByType(vehicleTypeQuery);
+//        displayVehicles(vehicles);
+//    }
+//
+//    // method to get all vehicles
+//    public void processGetAllVehiclesRequest(){
+//        if(dealership != null) {
+//            ArrayList<Vehicle> vehicles = this.dealership.getAllVehicles();
+//            displayVehicles(vehicles);
+//        }
+//        else{
+//            System.out.println("This dealership is empty.");
+//        }
+//    }
+//
+//    // add vehicles method
+//    public void processAddVehicleRequest(){
+//        Vehicle vehicle = displayAddVehiclePrompt();
+//        this.dealership.addVehicle(vehicle);
+//        fileManager.saveDealership(this.dealership);
+//    }
+//
+//    // remove vehicle method
+//    public void processRemoveVehicleRequest(){
+//        String vinQueryToDelete = promptMethod("Insert VIN number for vehicle that you want to delete.");
+//        Vehicle vehicle = this.dealership.findVehicleByVin(Integer.parseInt(vinQueryToDelete));
+//        this.dealership.removeVehicle(vehicle);
+//        fileManager.saveDealership(this.dealership);
+//
+//
+//    }
 
     // add vehicle prompt to display prompts and create vehicle object out of data
     public Vehicle displayAddVehiclePrompt(){
