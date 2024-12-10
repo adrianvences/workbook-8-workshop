@@ -43,7 +43,7 @@ public class DealershipFileManager {
             // reads each line of file after header
             while((input = bufferedReader.readLine()) != null){
                 String[] vehicleData = input.split("\\|");
-                int vin = Integer.parseInt(vehicleData[0]);
+                String vin = vehicleData[0];
                 int year = Integer.parseInt(vehicleData[1]);
                 String make = vehicleData[2];
                 String model = vehicleData[3];
