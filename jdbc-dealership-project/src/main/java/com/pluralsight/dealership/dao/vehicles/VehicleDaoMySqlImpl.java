@@ -1,8 +1,7 @@
-package com.pluralsight.dealership.dao;
+package com.pluralsight.dealership.dao.vehicles;
 
 import com.pluralsight.dealership.model.Vehicle;
 
-import javax.print.PrintException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

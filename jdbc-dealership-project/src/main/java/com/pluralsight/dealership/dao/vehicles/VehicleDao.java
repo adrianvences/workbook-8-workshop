@@ -1,4 +1,4 @@
-package com.pluralsight.dealership.dao;
+package com.pluralsight.dealership.dao.vehicles;
 
 import com.pluralsight.dealership.model.Vehicle;
 

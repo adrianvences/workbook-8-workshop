@@ -1,13 +1,6 @@
 package com.pluralsight.dealership;
 
-import com.pluralsight.dealership.dao.DealershipDaoMySqlImpl;
-import com.pluralsight.dealership.model.Dealership;
 import org.apache.commons.dbcp2.BasicDataSource;
-
-import java.sql.SQLException;
-import java.util.Scanner;
-
-import static java.lang.System.exit;
 
 public class Program {
 

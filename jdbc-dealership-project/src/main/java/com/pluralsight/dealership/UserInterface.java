@@ -1,11 +1,9 @@
 package com.pluralsight.dealership;
 
-import com.pluralsight.dealership.dao.VehicleDaoMySqlImpl;
-import com.pluralsight.dealership.model.Dealership;
+import com.pluralsight.dealership.dao.vehicles.VehicleDaoMySqlImpl;
 import com.pluralsight.dealership.model.Vehicle;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 

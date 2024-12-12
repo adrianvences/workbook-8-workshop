@@ -1,15 +1,12 @@
-package com.pluralsight.dealership.dao;
+package com.pluralsight.dealership.dao.dealership;
 
-import com.mysql.cj.protocol.Resultset;
 import com.pluralsight.dealership.model.Dealership;
-import com.pluralsight.dealership.model.Vehicle;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
  // DealershipDaoMySqlImpl implements DealershipDao
