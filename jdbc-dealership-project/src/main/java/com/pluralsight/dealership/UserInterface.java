@@ -11,9 +11,8 @@ import java.util.Scanner;
 
 public class UserInterface {
 
-    Dealership dealership;
+
     static Scanner scanner = new Scanner(System.in);
-    DealershipFileManager fileManager;
     private VehicleDaoMySqlImpl vehicleDB;
 
     public UserInterface(DataSource dataSource) {
@@ -22,10 +21,7 @@ public class UserInterface {
 
     // Display method to show menu and load init() method
     public void display() {
-        init();
         String choice;
-
-
         do {
             displayDealershipMenu();
             choice = usersMenuInput(scanner);
@@ -36,28 +32,28 @@ public class UserInterface {
                     processGetAllVehicles();
                     break;
                 case "2":
-                 processGetByPriceRequest();
+                    processGetByPriceRequest();
                     break;
                 case "3":
-//                 processGetByMakeModelRequest();
+                 processGetByMakeModelRequest();
                     break;
                 case "4":
-//                 processGetByColorRequest();
+                 processGetByColorRequest();
                     break;
                 case "5":
-//                 processGetByMileageRequest();
+                 processGetByMileageRequest();
                     break;
                 case "6":
-//                 processGetByVehicleTypeRequest();
+                 processGetByVehicleTypeRequest();
                     break;
                 case "7":
-//                 processGetByYearRequest();
+                 processGetByYearRequest();
                     break;
                 case "8":
-//                 processAddVehicleRequest();
+                 processAddVehicleRequest();
                     break;
                 case "9":
-//                 processRemoveVehicleRequest();
+                 processRemoveVehicleRequest();
                     break;
                 case "10":
                     displaySellLeaseMenu();
@@ -71,18 +67,6 @@ public class UserInterface {
             // stops loop once "x" is input
         } while (!choice.equalsIgnoreCase("x"));
         scanner.close();
-    }
-
-    // Method to initialize the dealership and file manager
-    private void init() {
-        fileManager = new DealershipFileManager();
-        this.dealership = fileManager.getDealership();
-
-        if (this.dealership != null) {
-            System.out.println("dealership loaded");
-        } else {
-            System.out.println("dealership not loaded, check file");
-        }
     }
 
     // input method for switch statement
@@ -170,8 +154,10 @@ public class UserInterface {
 //    }
 //
     // method to print out inventory
-    private void processGetAllVehicles() {displayVehicles(vehicleDB.findAllVehicles());
+    private void processGetAllVehicles() {
+        displayVehicles(vehicleDB.findAllVehicles());
     }
+
     //
 //    public Vehicle processGetByVinRequest(){
 //        int vin = Integer.parseInt(promptMethod("Enter Vehicle vin"));
@@ -190,99 +176,87 @@ public class UserInterface {
     }
 
     private void displayVehicles(List<Vehicle> vehicles) {
-        for(Vehicle v : vehicles){
+        for (Vehicle v : vehicles) {
             System.out.println(v);
         }
     }
+
+
+    // Method to get vehicles by make / model
+    public void processGetByMakeModelRequest() {
+        String userMakeQuery = promptMethod("What car make are you looking for?");
+        String userModelQuery = promptMethod("What car model are you looking for?");
+        List<Vehicle> vehicles = vehicleDB.findVehiclesByMakeModel(userMakeQuery, userModelQuery);
+        displayVehicles(vehicles);
+    }
+
+
+    // Method to get vehicle by year
+    public void processGetByYearRequest(){
+        int min = Integer.parseInt(promptMethod("Enter minimum year"));
+        int max = Integer.parseInt(promptMethod("Enter maximum year"));
+
+        List<Vehicle> vehicles = vehicleDB.findVehiclesByYear(min,max);
+        displayVehicles(vehicles);
+    }
+
+    // Method to get vehicle by color
+    public void processGetByColorRequest(){
+        String colorQuery = promptMethod("Enter vehicle color.");
+        List<Vehicle> vehicles = vehicleDB.findVehicleByColor(colorQuery);
+        displayVehicles(vehicles);
+    }
+
+    // method to get vehicle by mileage (odometer)
+    public void processGetByMileageRequest(){
+        int min = Integer.parseInt(promptMethod("Enter minimum mileage"));
+        int max = Integer.parseInt(promptMethod("Enter maximum mileage"));
+
+        List<Vehicle> vehicles = vehicleDB.findVehicleByMileRange(min,max);
+        displayVehicles(vehicles);
+    }
+
+    // Method to get vehicle by type
+    public void processGetByVehicleTypeRequest(){
+        String vehicleTypeQuery = promptMethod(" Enter vehicle by type (car, truck, SUV, van)");
+        List<Vehicle> vehicles = vehicleDB.findVehicleByVehicleType(vehicleTypeQuery);
+        displayVehicles(vehicles);
+    }
+
+
+    // add vehicles method
+    public void processAddVehicleRequest(){
+        Vehicle vehicle = displayAddVehiclePrompt();
+        vehicleDB.addVehicle(vehicle.getVin(),vehicle.getYear(),vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
+    }
+
+    // remove vehicle method
+    public void processRemoveVehicleRequest(){
+        String vinQueryToDelete = promptMethod("Insert VIN number for vehicle that you want to delete.");
+        vehicleDB.removeVehicleByVIN(vinQueryToDelete);
+    }
+
+//     add vehicle prompt to display prompts and create vehicle object out of data
+    public Vehicle displayAddVehiclePrompt(){
+        String vehicleVin = promptMethod("Enter Vehicle VIN.");
+        String vehicleYear = promptMethod("Enter Vehicle Year.");
+        String vehicleMake = promptMethod("Enter Vehicle Make.");
+        String vehicleModel = promptMethod("Enter Vehicle Model.");
+        String vehicleType = promptMethod("Enter Vehicle Type.");
+        String vehicleColor = promptMethod("Enter Vehicle Color.");
+        String vehicleOdometer = promptMethod("Enter Vehicle Mileage.");
+        String vehiclePrice = promptMethod("Enter Vehicle Price.");
+        boolean vehicleSold = false;
+
+
+        int vehicleYearInt = Integer.parseInt(vehicleYear);
+        int vehicleOdometerInt = Integer.parseInt(vehicleOdometer);
+        int vehiclePriceInt = Integer.parseInt(vehiclePrice);
+
+
+        return new Vehicle(vehicleVin,vehicleYearInt,vehicleMake,vehicleModel,vehicleType,vehicleColor,vehicleOdometerInt,vehiclePriceInt,vehicleSold);
+   }
 }
-//
-//    // Method to get vehicles by make / model
-//    public void processGetByMakeModelRequest(){
-//        String userMakeQuery = promptMethod("What car make are you looking for?");
-//        String userModelQuery = promptMethod("What car model are you looking for?");
-//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByMakeModel(userMakeQuery,userModelQuery);
-//        displayVehicles(vehicles);
-//    }
-//
-//    // Method to get vehicle by year
-//    public void processGetByYearRequest(){
-//        int min = Integer.parseInt(promptMethod("Enter minimum year"));
-//        int max = Integer.parseInt(promptMethod("Enter maximum year"));
-//
-//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByYear(min,max);
-//        displayVehicles(vehicles);
-//    }
-//
-//    // Method to get vehicle by color
-//    public void processGetByColorRequest(){
-//        String colorQuery = promptMethod("Enter vehicle color.");
-//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByColor(colorQuery);
-//        displayVehicles(vehicles);
-//    }
-//
-//    // method to get vehicle by mileage (odometer)
-//    public void processGetByMileageRequest(){
-//        int min = Integer.parseInt(promptMethod("Enter minimum mileage"));
-//        int max = Integer.parseInt(promptMethod("Enter maximum mileage"));
-//
-//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByMileage(min,max);
-//        displayVehicles(vehicles);
-//    }
-//
-//    // Method to get vehicle by type
-//    public void processGetByVehicleTypeRequest(){
-//        String vehicleTypeQuery = promptMethod(" Enter vehicle by type (car, truck, SUV, van)");
-//        ArrayList<Vehicle> vehicles = this.dealership.getVehiclesByType(vehicleTypeQuery);
-//        displayVehicles(vehicles);
-//    }
-//
-//    // method to get all vehicles
-//    public void processGetAllVehiclesRequest(){
-//        if(dealership != null) {
-//            ArrayList<Vehicle> vehicles = this.dealership.getAllVehicles();
-//            displayVehicles(vehicles);
-//        }
-//        else{
-//            System.out.println("This dealership is empty.");
-//        }
-//    }
-//
-//    // add vehicles method
-//    public void processAddVehicleRequest(){
-//        Vehicle vehicle = displayAddVehiclePrompt();
-//        this.dealership.addVehicle(vehicle);
-//        fileManager.saveDealership(this.dealership);
-//    }
-//
-//    // remove vehicle method
-//    public void processRemoveVehicleRequest(){
-//        String vinQueryToDelete = promptMethod("Insert VIN number for vehicle that you want to delete.");
-//        Vehicle vehicle = this.dealership.findVehicleByVin(Integer.parseInt(vinQueryToDelete));
-//        this.dealership.removeVehicle(vehicle);
-//        fileManager.saveDealership(this.dealership);
-//
-//
-//    }
-
-    // add vehicle prompt to display prompts and create vehicle object out of data
-//    public Vehicle displayAddVehiclePrompt(){
-//        String vehicleVin = promptMethod("Enter Vehicle VIN.");
-//        String vehicleYear = promptMethod("Enter Vehicle Year.");
-//        String vehicleMake = promptMethod("Enter Vehicle Make.");
-//        String vehicleModel = promptMethod("Enter Vehicle Model.");
-//        String vehicleType = promptMethod("Enter Vehicle Type.");
-//        String vehicleColor = promptMethod("Enter Vehicle Color.");
-//        String vehicleOdometer = promptMethod("Enter Vehicle Mileage.");
-//        String vehiclePrice = promptMethod("Enter Vehicle Price.");
-//
-//        int vehicleVinInt = Integer.parseInt(vehicleVin);
-//        int vehicleYearInt = Integer.parseInt(vehicleYear);
-//        int vehicleOdometerInt = Integer.parseInt(vehicleOdometer);
-//        int vehiclePriceInt = Integer.parseInt(vehiclePrice);
-//
-//        return new Vehicle(vehicleVinInt,vehicleYearInt,vehicleMake,vehicleModel,vehicleType,vehicleColor,vehicleOdometerInt,vehiclePriceInt);
-//   }
-
 
 
 

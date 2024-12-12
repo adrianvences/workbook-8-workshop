@@ -17,6 +17,6 @@ public interface VehicleDao {
     List<Vehicle> findVehicleByVehicleType(String vehicleType);
     Vehicle findVehicleByVIN(int vin);
 
-    void removeVehicleByVIN(int vin);
-    void addVehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price);
+    void removeVehicleByVIN(String vin);
+    void addVehicle(String vin, int year, String make, String model, String vehicleType, String color, int odometer, double price);
 }
