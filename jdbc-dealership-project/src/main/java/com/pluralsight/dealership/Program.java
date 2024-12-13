@@ -10,7 +10,7 @@ public class Program {
         dataSource.setPassword(args[1]);
         dataSource.setUrl("jdbc:mysql://localhost:3306/dealership");
 
-        UserInterface ui = new UserInterface(dataSource);
+        UserInterface ui = new UserInterface(dataSource,dataSource,dataSource);
         ui.display();
     }
 }

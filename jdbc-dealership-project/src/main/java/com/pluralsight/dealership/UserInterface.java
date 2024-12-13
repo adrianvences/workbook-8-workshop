@@ -1,9 +1,14 @@
 package com.pluralsight.dealership;
 
+import com.pluralsight.dealership.dao.contracts.LeaseDaoMySqlImpl;
+import com.pluralsight.dealership.dao.contracts.SalesDaoMySqlImpl;
 import com.pluralsight.dealership.dao.vehicles.VehicleDaoMySqlImpl;
+import com.pluralsight.dealership.model.LeaseContract;
+import com.pluralsight.dealership.model.SalesContract;
 import com.pluralsight.dealership.model.Vehicle;
 
 import javax.sql.DataSource;
+import java.rmi.dgc.Lease;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,9 +17,13 @@ public class UserInterface {
 
     static Scanner scanner = new Scanner(System.in);
     private VehicleDaoMySqlImpl vehicleDB;
+    private SalesDaoMySqlImpl salesVehicleDB;
+    private LeaseDaoMySqlImpl leaseVehicleDB;
 
-    public UserInterface(DataSource dataSource) {
+    public UserInterface(DataSource dataSource, DataSource dataSource1, DataSource dataSource2) {
         this.vehicleDB = new VehicleDaoMySqlImpl(dataSource);
+        this.salesVehicleDB = new SalesDaoMySqlImpl(dataSource1);
+        this.leaseVehicleDB = new LeaseDaoMySqlImpl(dataSource2);
     }
 
     // Display method to show menu and load init() method
@@ -111,10 +120,10 @@ public class UserInterface {
                     """);
             switch (input.toLowerCase()) {
                 case "1":
-//                    processSellVehicleRequest();
+                    processSellVehicleRequest();
                     break;
                 case "2":
-//                    processLeaseVehicleRequest();
+                    processLeaseVehicleRequest();
                     break;
                 case "x":
                     System.out.println("Back to home screen ...");
@@ -127,43 +136,41 @@ public class UserInterface {
         }
     }
 
-    //    public void processSellVehicleRequest(){
-//        String contractType = "saleContract";
-//        Vehicle vehicle = processGetByVinRequest();
-//        Contract c = ContractFileManager.makeContract(contractType,vehicle);
-//        this.dealership.removeVehicle(vehicle);
-//        fileManager.saveDealership(this.dealership);
-//        ContractFileManager.saveContract(c);
-//
-//    }
-//
-//
-//    public void processLeaseVehicleRequest(){
-//        String contractType = "leaseContract";
-//        Vehicle vehicle = processGetByVinRequest();
-//        if(!ContractFileManager.okayToLeaseMethod(vehicle.getYear())){
-//            System.out.println("Vehicle is not available for lease.");
-//            return;
-//        }
-//        Contract c = ContractFileManager.makeContract(contractType,vehicle);
-//        this.dealership.removeVehicle(vehicle);
-//        fileManager.saveDealership(this.dealership);
-//        ContractFileManager.saveContract(c);
-//    }
-//
+        public void processSellVehicleRequest(){
+        String contractType = "saleContract";
+        Vehicle vehicle = processGetByVinRequest();
+        Contract c = ContractFileManager.makeContract(contractType,vehicle);
+        SalesContract salesContract = (SalesContract) c;
+        salesVehicleDB.saveSalesDao(salesContract);
+            System.out.println("sale saved");
+    }
+
+
+    public void processLeaseVehicleRequest(){
+        String contractType = "leaseContract";
+        Vehicle vehicle = processGetByVinRequest();
+        if(!ContractFileManager.okayToLeaseMethod(vehicle.getYear())){
+            System.out.println("Vehicle is not available for lease.");
+            return;
+        }
+        Contract c = ContractFileManager.makeContract(contractType,vehicle);
+        LeaseContract leaseContract = (LeaseContract) c;
+        leaseVehicleDB.saveLeaseContract(leaseContract);
+    }
+
     // method to print out inventory
     private void processGetAllVehicles() {
         displayVehicles(vehicleDB.findAllVehicles());
     }
 
-    //
-//    public Vehicle processGetByVinRequest(){
-//        int vin = Integer.parseInt(promptMethod("Enter Vehicle vin"));
-//        Vehicle vehicle = this.dealership.findVehicleByVin(vin);
-//        System.out.println(vehicle);
-//        return vehicle;
-//    }
-//
+
+    public Vehicle processGetByVinRequest(){
+        String vin = promptMethod("Enter Vehicle vin");
+        Vehicle vehicle = vehicleDB.findVehicleByVIN(vin);
+        System.out.println(vehicle);
+        return vehicle;
+    }
+
     // Method to get vehicles by price range
     public void processGetByPriceRequest() {
         int min = Integer.parseInt(promptMethod("Enter minimum Value"));
@@ -187,7 +194,6 @@ public class UserInterface {
         List<Vehicle> vehicles = vehicleDB.findVehiclesByMakeModel(userMakeQuery, userModelQuery);
         displayVehicles(vehicles);
     }
-
 
     // Method to get vehicle by year
     public void processGetByYearRequest(){

@@ -15,7 +15,7 @@ public interface VehicleDao {
     List<Vehicle> findVehicleByColor(String color);
     List<Vehicle> findVehicleByMileRange(int minOdom, int maxOdom);
     List<Vehicle> findVehicleByVehicleType(String vehicleType);
-    Vehicle findVehicleByVIN(int vin);
+    Vehicle findVehicleByVIN(String vin);
 
     void removeVehicleByVIN(String vin);
     void addVehicle(String vin, int year, String make, String model, String vehicleType, String color, int odometer, double price);

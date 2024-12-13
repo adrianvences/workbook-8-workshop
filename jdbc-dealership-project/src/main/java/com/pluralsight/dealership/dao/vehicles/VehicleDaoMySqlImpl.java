@@ -305,9 +305,48 @@ public class VehicleDaoMySqlImpl implements VehicleDao {
     }
 
     @Override
-    public Vehicle findVehicleByVIN(int vin) {
-        return null;
+    public Vehicle findVehicleByVIN(String vin) {
+        Vehicle vehicle = new Vehicle();
+        String query = """
+                SELECT * FROM vehicles
+                WHERE vin = ?;
+                """;
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement getByVin = connection.prepareStatement(query);
+            getByVin.setString(1, vin);
+            ResultSet rs = getByVin.executeQuery();
+
+            while(rs.next()) {
+                String make = rs.getString("make");
+                String model = rs.getString("model");
+                int year = rs.getInt("year");
+                String thisColor = rs.getString("color");
+                int odometer = rs.getInt("odometer");
+                double price = rs.getDouble("price");
+                String thisVin = rs.getString("vin");
+                boolean sold = rs.getBoolean("sold");
+                String thisVehicleType = rs.getString("vehicleType");
+                if(!sold){
+                    vehicle = (new Vehicle(thisVin, year, make, model, thisVehicleType, thisColor, odometer, price, false));
+                }
+            }
+
+
+        } catch (SQLException e ){
+             e.printStackTrace();
+             throw new RuntimeException();
+        }
+        return vehicle;
     }
+
+
+
+
+
+
+
+
+
 
     @Override
     public void removeVehicleByVIN(String vin) {
@@ -353,4 +392,6 @@ public class VehicleDaoMySqlImpl implements VehicleDao {
             e.printStackTrace();
         }
     }
+
+
 }
